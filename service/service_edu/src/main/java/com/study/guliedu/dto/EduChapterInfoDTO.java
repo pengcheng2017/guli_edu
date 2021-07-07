@@ -1,25 +1,24 @@
-package com.study.guliedu.vo;
+package com.study.guliedu.dto;
 
-import io.swagger.annotations.ApiModel;
+import com.study.guliedu.vo.EduVideoVO;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * @author liao.peng
- * @since 2021/7/6 10:01
+ * @since 2021/7/6 11:24
  */
 @Data
-@ApiModel(value = "章节信息")
-public class EduChapterVO implements Serializable {
-
-    private static final long serialVersionUID = 1234L;
+public class EduChapterInfoDTO {
 
     @ApiModelProperty(value = "主键")
     private String id;
+
+    @ApiModelProperty(value = "课程主键")
+    private String courseId;
 
     @ApiModelProperty(value = "章节名称")
     private String title;

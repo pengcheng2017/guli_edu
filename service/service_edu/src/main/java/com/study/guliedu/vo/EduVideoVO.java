@@ -12,7 +12,7 @@ import java.io.Serializable;
  */
 @Data
 @ApiModel(value = "课时信息")
-public class VideoVO implements Serializable {
+public class EduVideoVO implements Serializable {
 
     private static final long serialVersionUID = 23L;
 

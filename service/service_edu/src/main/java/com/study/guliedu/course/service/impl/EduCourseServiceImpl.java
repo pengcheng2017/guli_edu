@@ -1,6 +1,7 @@
 package com.study.guliedu.course.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.study.guliedu.common_utils.DateUtils;
 import com.study.guliedu.course.entity.EduCourse;
@@ -9,6 +10,7 @@ import com.study.guliedu.course.mapper.EduCourseMapper;
 import com.study.guliedu.course.service.IEduCourseDescriptionService;
 import com.study.guliedu.course.service.IEduCourseService;
 import com.study.guliedu.dto.EduCourseInfoDTO;
+import com.study.guliedu.dto.EduCourseInfoListDTO;
 import com.study.guliedu.file.service.UploadServiceImpl;
 import com.study.guliedu.service_base.result.R;
 import com.study.guliedu.vo.EduCourseVO;
@@ -141,5 +143,44 @@ public class EduCourseServiceImpl extends ServiceImpl<EduCourseMapper, EduCourse
             return R.error().message("获取课程信息出错,错误信息为" + e.getMessage());
         }
 
+    }
+
+    @Override
+    public R pageQuery(EduCourseInfoListDTO listDTO) {
+        try {
+            Page<EduCourse> page = new Page<>(listDTO.getPage(), listDTO.getLimit());
+            QueryWrapper<EduCourse> queryWrapper = new QueryWrapper<>();
+            queryWrapper.orderByDesc("gmt_create");
+            if (StringUtils.isEmpty(listDTO.getTitle()) && StringUtils.isEmpty(listDTO.getSubjectId())
+                    && StringUtils.isEmpty(listDTO.getSubjectParentId()) && StringUtils.isEmpty(listDTO.getTeacherId())
+                    && StringUtils.isEmpty(listDTO.getStatus())){
+                baseMapper.selectPage(page, queryWrapper);
+                return R.ok().data("rows",page.getRecords()).data("total",page.getTotal());
+            }
+            String title = listDTO.getTitle();
+            String teacherId = listDTO.getTeacherId();
+            String subjectParentId = listDTO.getSubjectParentId();
+            String subjectId = listDTO.getSubjectId();
+            if (!StringUtils.isEmpty(title)) {
+                queryWrapper.like("title", title);
+            }
+            if (!StringUtils.isEmpty(teacherId) ) {
+                queryWrapper.eq("teacher_id", teacherId);
+            }
+            if (!StringUtils.isEmpty(subjectParentId)) {
+                queryWrapper.ge("subject_parent_id", subjectParentId);
+            }
+            if (!StringUtils.isEmpty(subjectId)) {
+                queryWrapper.ge("subject_id", subjectId);
+            }
+            if (!StringUtils.isEmpty(listDTO.getStatus())) {
+                queryWrapper.ge("status", listDTO.getStatus());
+            }
+            baseMapper.selectPage(page, queryWrapper);
+            return R.ok().data("rows",page.getRecords()).data("total",page.getTotal());
+        }catch (Exception e){
+            log.error("查询课程分页列表出错,错误信息为"+e.getMessage(),e);
+            return R.error().message("查询课程分页列表出错,错误信息为"+e.getMessage());
+        }
     }
 }

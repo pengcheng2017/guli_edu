@@ -16,6 +16,12 @@ public class EduCourseInfoListDTO implements Serializable {
 
     private static final long serialVersionUID = 123L;
 
+    @ApiModelProperty(value = "页码")
+    private Integer page = 1;
+
+    @ApiModelProperty(value = "每页条数")
+    private Integer limit = 10;
+
     @ApiModelProperty(value = "课程ID")
     private String id;
 
@@ -34,6 +40,9 @@ public class EduCourseInfoListDTO implements Serializable {
 
     @ApiModelProperty(value = "课程销售价格，设置为0则可免费观看")
     private BigDecimal price;
+
+    @ApiModelProperty(value = "课程状态 Draft未发布  Normal已发布")
+    private String status;
 
     @ApiModelProperty(value = "总课时")
     private Integer lessonNum;

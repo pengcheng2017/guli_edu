@@ -1,5 +1,6 @@
 package com.study.guliedu.course.service;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.study.guliedu.course.entity.EduCourse;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.study.guliedu.dto.EduCourseInfoDTO;
@@ -40,5 +41,13 @@ public interface IEduCourseService extends IService<EduCourse> {
      * @return
      */
     R getCourseInfo(String id);
+
+    /**
+     * 课程分页列表
+     *
+     * @param listDTO
+     * @return
+     */
+    R pageQuery(EduCourseInfoListDTO listDTO);
 
 }
